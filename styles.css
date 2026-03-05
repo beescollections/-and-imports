@@ -20,7 +20,7 @@
 body {
     font-family: var(--font-body);
     /* CUSTOM BACKGROUND RESTORED! */
-    background: url('background.jpg') center/cover no-repeat fixed;
+    background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop') center/cover no-repeat fixed;
     background-color: #f4f4f5;
     color: var(--dark);
     line-height: 1.6;
@@ -192,6 +192,7 @@ input:focus, textarea:focus { outline: none; background: rgba(255, 255, 255, 0.9
     .nav-links::-webkit-scrollbar { display: none; }
     .nav-links li { white-space: nowrap; }
 }
+
 
 
 
