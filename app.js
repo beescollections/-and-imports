@@ -455,7 +455,13 @@ function renderAdminOrders(orders) {
 
         list.innerHTML += `
             <div style="background: var(--cream); padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid var(--gold); position: relative;">
-                <h4 style="margin-bottom: 5px;">Order from: ${order.customer_name}</h4>
+                
+                <div style="position: absolute; right: 15px; top: 15px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                    ${order.status !== 'Completed' ? `<button class="btn-primary" style="padding: 5px 10px; font-size: 0.8rem; width: auto;" onclick="markOrderComplete('${order.id}')">Mark Delivered</button>` : ''}
+                    <button class="btn-danger" style="padding: 5px 10px; font-size: 0.8rem; width: auto;" onclick="deleteOrder('${order.id}')">Delete</button>
+                </div>
+
+                <h4 style="margin-bottom: 5px; max-width: 65%;">Order from: ${order.customer_name}</h4>
                 <p style="font-size: 0.85rem; margin-bottom: 2px;"><strong>MoMo Number:</strong> ${order.momo_number}</p>
                 <p style="font-size: 0.85rem; margin-bottom: 2px;"><strong>Ref ID:</strong> ${order.transaction_ref}</p>
                 <p style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Status:</strong> <span style="color: ${order.status === 'Completed' ? 'green' : 'orange'}; font-weight: bold;">${order.status.toUpperCase()}</span></p>
@@ -468,8 +474,6 @@ function renderAdminOrders(orders) {
                     <p style="font-size: 0.9rem; margin-bottom: 3px;"><strong>Amount Paid by Customer:</strong> GHS ${amountPaid.toFixed(2)}</p>
                     ${balanceHtml}
                 </div>
-                
-                ${order.status !== 'Completed' ? `<button class="btn-primary" style="padding: 5px 10px; font-size: 0.8rem; position: absolute; right: 15px; top: 15px; width: auto;" onclick="markOrderComplete('${order.id}')">Mark Delivered</button>` : ''}
             </div>
         `;
     });
@@ -491,6 +495,18 @@ async function markOrderComplete(orderId) {
         const { error } = await client.from('payments').update({ status: 'Completed' }).eq('id', orderId);
         if(error) {
             alert("Could not update order status.");
+        } else {
+            fetchOrders(); 
+        }
+    }
+}
+
+// NEW: Delete Order Logic
+async function deleteOrder(orderId) {
+    if(confirm("Are you sure you want to permanently delete this order record? This cannot be undone.")) {
+        const { error } = await client.from('payments').delete().eq('id', orderId);
+        if(error) {
+            alert("Could not delete order. Did you update the Supabase policy? Error: " + error.message);
         } else {
             fetchOrders(); 
         }
