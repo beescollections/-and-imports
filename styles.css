@@ -1,12 +1,12 @@
 :root {
     /* The New White & Black Glassmorphism Palette */
-    --bg-light: #f4f4f5; /* Very subtle grey background to make the glass pop */
-    --glass: rgba(255, 255, 255, 0.65); /* Frosted glass background */
-    --glass-border: rgba(0, 0, 0, 0.1); /* Thin black lines */
-    --dark: #000000; /* Pure black text and accents */
+    --glass-bg: rgba(255, 255, 255, 0.25); /* Highly transparent to see the blur */
+    --glass-border: rgba(255, 255, 255, 0.6); /* Frosty white edge highlights */
+    --glass-shadow: rgba(0, 0, 0, 0.08); /* Soft drop shadow to make it float */
+    --dark: #000000; /* Pure black text and thin lines */
     
     /* Legacy variables re-mapped to protect your existing HTML/JS inline styles */
-    --cream: var(--glass);
+    --cream: var(--glass-bg);
     --blush: rgba(255, 255, 255, 0.4);
     --beige: rgba(255, 255, 255, 0.5);
     --gold: var(--dark); /* Replaces all gold with sleek black */
@@ -19,12 +19,10 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--bg-light);
-    /* Subtle background mesh to make the transparent glass visible */
-    background-image: 
-        radial-gradient(at 0% 0%, #ffffff 0px, transparent 50%),
-        radial-gradient(at 100% 100%, #eaeaea 0px, transparent 50%);
-    background-attachment: fixed;
+    /* THE FIX: To make glassmorphism pop, we need a subtle abstract background. 
+       This is a high-end, unisex white/silver fluid texture. */
+    background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop') center/cover no-repeat fixed;
+    background-color: #f4f4f5;
     color: var(--dark);
     line-height: 1.6;
 }
@@ -33,22 +31,23 @@ body {
 nav {
     display: flex; justify-content: space-between; align-items: center;
     padding: 20px 5%; 
-    background-color: var(--glass); 
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background-color: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(25px); /* Heavy blur */
+    -webkit-backdrop-filter: blur(25px);
     border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px var(--glass-shadow);
     position: sticky; top: 0; z-index: 100;
 }
 .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--dark); }
 .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; }
-.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; opacity: 0.7; }
+.nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; transition: opacity 0.3s; opacity: 0.7; }
 .nav-links a:hover { opacity: 1; }
 .cart-link { 
-    background: transparent; 
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.3); 
+    border: 1px solid var(--dark); /* Thin black border */
     padding: 8px 15px; border-radius: 20px; 
     opacity: 1 !important; 
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
 }
 
 /* Pages & SPA Routing */
@@ -57,12 +56,12 @@ nav {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Typography & Buttons */
-.section-title { text-align: center; font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 40px; color: var(--dark); }
+.section-title { text-align: center; font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 40px; color: var(--dark); font-weight: 600; }
 .text-container { max-width: 600px; margin: 0 auto; text-align: center; }
 
-/* Ghost Buttons (Transparent with Thin Black Borders) */
+/* Thin Black Border Glass Buttons */
 .btn-primary {
-    background-color: transparent; 
+    background-color: rgba(255,255,255,0.2); 
     color: var(--dark); 
     border: 1px solid var(--dark); 
     padding: 12px 24px;
@@ -72,104 +71,104 @@ nav {
 }
 .btn-primary:hover { background-color: var(--dark); color: #fff; transform: scale(1.02); }
 
-/* Hero Section */
+/* Hero Section - Maximum Glass floating over the background */
 .hero { 
     text-align: center; padding: 120px 20px; 
-    /* IMAGE REMOVED - Replaced with sleek Frosted Glass */
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 15px; margin-top: 20px; 
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 20px; margin-top: 20px; 
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 32px var(--glass-shadow);
 }
 .hero h1 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 15px; color: var(--dark); }
-.hero p { font-size: 1.2rem; margin-bottom: 25px; color: var(--dark); }
-.hero .btn-primary { width: auto; background-color: var(--glass); }
+.hero p { font-size: 1.2rem; margin-bottom: 25px; color: var(--dark); font-weight: 500;}
+.hero .btn-primary { width: auto; background-color: rgba(255, 255, 255, 0.4); }
 .hero .btn-primary:hover { background-color: var(--dark); color: #fff; }
 
 /* Product Grid & Glass Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 .product-card { 
-    background: var(--glass); 
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 10px; overflow: hidden; 
+    background: rgba(255, 255, 255, 0.3); 
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 15px; overflow: hidden; 
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+    box-shadow: 0 8px 32px var(--glass-shadow); 
     transition: transform 0.3s, box-shadow 0.3s; 
     text-align: center; padding-bottom: 20px; cursor: pointer;
 }
-.product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
 .product-card img { width: 100%; height: 380px; object-fit: cover; }
-.product-card h3 { margin: 15px 0 5px; font-family: var(--font-heading); font-size: 1.2rem;}
+.product-card h3 { margin: 15px 0 5px; font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600;}
 .product-card p { color: var(--dark); font-weight: 600; font-size: 1.1rem; }
 
 /* Modal (Product Details) */
-.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
 .modal-content { 
-    background: rgba(255, 255, 255, 0.85); 
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; position: relative; animation: fadeIn 0.3s; 
+    background: rgba(255, 255, 255, 0.6); 
+    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border); box-shadow: 0 8px 32px var(--glass-shadow);
+    padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; position: relative; animation: fadeIn 0.3s; 
 }
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; color: var(--dark); opacity: 0.5; }
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; color: var(--dark); opacity: 0.6; }
 .close-modal:hover { opacity: 1; }
 .modal-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.modal-body-grid img { width: 100%; height: 400px; object-fit: cover; border-radius: 5px; }
+.modal-body-grid img { width: 100%; height: 400px; object-fit: cover; border-radius: 10px; }
 .modal-info h2 { font-family: var(--font-heading); margin-bottom: 10px; }
 .modal-info .price { color: var(--dark); font-size: 1.5rem; font-weight: bold; margin-bottom: 15px; }
 .modal-info select { 
     width: 100%; padding: 10px; margin: 15px 0; 
-    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
-    border: 1px solid var(--glass-border); border-radius: 5px; font-family: var(--font-body); 
+    background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
+    border: 1px solid var(--dark); border-radius: 5px; font-family: var(--font-body); 
+    color: var(--dark); font-weight: 500;
 }
 
 /* Cart & Checkout */
 .cart-container { 
-    max-width: 800px; margin: 0 auto; padding: 30px; border-radius: 10px; 
-    background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+    max-width: 800px; margin: 0 auto; padding: 30px; border-radius: 15px; 
+    background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border); box-shadow: 0 8px 32px var(--glass-shadow); 
 }
 .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--glass-border); }
-.remove-btn { background: transparent; color: var(--dark); border: 1px solid var(--dark); padding: 8px 12px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-.remove-btn:hover { background: #ff4d4d; color: white; border-color: #ff4d4d; }
+.remove-btn { background: rgba(255,255,255,0.2); color: var(--dark); border: 1px solid var(--dark); padding: 8px 12px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+.remove-btn:hover { background: var(--dark); color: white; }
 .cart-summary { margin-top: 20px; text-align: right; }
 .cart-summary h3 { margin-bottom: 15px; font-size: 1.5rem; }
 
 .checkout-container { 
     display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; 
-    background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); padding: 30px; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+    background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border); padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px var(--glass-shadow); 
 }
 .momo-box { 
-    background-color: rgba(255, 255, 255, 0.4); backdrop-filter: blur(5px);
-    padding: 20px; border-radius: 5px; margin: 15px 0; 
+    background-color: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 10px; margin: 15px 0; 
     border-left: 4px solid var(--dark); border-top: 1px solid var(--glass-border); border-right: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); 
 }
 form { display: flex; flex-direction: column; gap: 15px; }
 input, textarea { 
     padding: 12px; font-family: var(--font-body);
-    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
-    border: 1px solid var(--glass-border); border-radius: 5px; 
+    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);
+    border: 1px solid var(--dark); border-radius: 5px; color: var(--dark);
 }
-input:focus, textarea:focus { outline: none; border-color: var(--dark); background: rgba(255, 255, 255, 0.8); }
-.file-upload label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #666; }
+input:focus, textarea:focus { outline: none; background: rgba(255, 255, 255, 0.9); }
+.file-upload label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #333; font-weight: 600; }
 
 /* Admin Dashboard */
 .admin-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 0 auto; }
 .admin-box { 
-    background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); padding: 25px; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+    background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border); padding: 25px; border-radius: 15px; box-shadow: 0 8px 32px var(--glass-shadow); 
 }
 .admin-item { 
     display: flex; justify-content: space-between; align-items: center; padding: 10px; 
-    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
-    border: 1px solid var(--glass-border); margin-bottom: 10px; border-radius: 5px; 
+    background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border); margin-bottom: 10px; border-radius: 10px; 
 }
 .admin-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
-.btn-danger { background: transparent; color: var(--dark); border: 1px solid var(--dark); padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-.btn-danger:hover { background: #ff4d4d; color: white; border-color: #ff4d4d; }
+.btn-danger { background: rgba(255,255,255,0.2); color: var(--dark); border: 1px solid var(--dark); padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+.btn-danger:hover { background: var(--dark); color: white; }
 
 /* Responsive */
 @media (max-width: 768px) {
