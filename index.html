@@ -213,6 +213,16 @@
     </div>
 
     <script src="app.js"></script>
+<script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(registration => console.log('App Engine Registered!'))
+            .catch(err => console.log('App Engine Failed: ', err));
+        });
+      }
+    </script>
 </body>
 </html>
+
 
