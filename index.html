@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2563EB">
+    <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="icon-192.png">
     <title>Bee's Collections and Import</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 <body>
 
     <nav>
-        <div class="logo">Bee's Collections and Import</div>
+        <div class="logo">Bee's Collections</div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#shop">Shop</a></li>
@@ -28,26 +28,119 @@
     <div id="app">
         
         <section id="home" class="page active">
-            <div class="hero">
-                <div class="hero-glass-card">
-                    <h1>Everyday Style, Everyday Home</h1>
-                    <p>From stunning dresses and accessories to top-tier kitchen appliances. We sell and import it all.</p>
-                    <button class="btn-primary" onclick="navigate('shop')">Shop the Collection</button>
+            <div class="hero" id="homepage-hero">
+                <div class="hero-content">
+                    <p class="hero-subtext">Stylish</p>
+                    <h1>Lifestyle Collections</h1>
+                    <p class="hero-promo">Special Imports & Everyday Essentials</p>
+                    <button class="btn-primary" onclick="navigate('shop')">SHOP NOW</button>
                 </div>
             </div>
+
+            <div class="new-arrivals-header">
+                <h2>New Arrival</h2>
+                <p>Check out our latest imports and collections</p>
+            </div>
+            <div id="new-arrivals-grid" class="grid"></div>
         </section>
 
         <section id="shop" class="page">
             <h2 class="section-title">Our Store</h2>
-            
             <div style="text-align: center; margin-bottom: 30px;">
-                <label for="category-filter" style="font-weight: 600; margin-right: 10px;">Filter by Category:</label>
-                <select id="category-filter" onchange="filterProducts()" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: var(--font-body);">
+                <select id="category-filter" onchange="filterProducts()" class="modern-select">
                     <option value="All">All Items</option>
-                    <option value="Dresses">Dresses (Party, Dinner, SHEIN)</option>
-                    <option value="Clothing">Clothing & Nightwear</option>
-                    <option value="Footwear">Footwear (Sneakers, Heels, Slippers)</option>
-                    <option value="Bags & Accessories">Bags, Scrunchies & Accessories</option>
-                    <option value="Beauty">Beauty (Lip Gloss, etc.)</option>
-                    <option value="Kitchen Appliances">Kitchen Appliances & Home</option>
-                </
+                    <option value="Dresses">Dresses</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Footwear">Footwear</option>
+                    <option value="Bags & Accessories">Accessories</option>
+                    <option value="Kitchen Appliances">Kitchen & Home</option>
+                </select>
+            </div>
+            <div id="product-grid" class="grid"></div>
+        </section>
+
+        <section id="cart" class="page">
+            <h2 class="section-title">Your Cart</h2>
+            <div class="cart-container">
+                <div id="cart-items"></div>
+                <div class="cart-summary">
+                    <h3>Total: GHS <span id="cart-total">0.00</span></h3>
+                    <button class="btn-primary" onclick="navigate('checkout')">Proceed to Checkout</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="checkout" class="page">
+            <h2 class="section-title">Complete Your Order</h2>
+            <div class="checkout-container">
+                <div class="momo-instructions">
+                    <h3>Payment Instructions</h3>
+                    <p>Please send total to official MTN numbers:</p>
+                    <div class="momo-box">
+                        <p><strong>Beatrice Panford:</strong> 0240332608</p>
+                        <hr>
+                        <p><strong>Getrude Panfo:</strong> 0248747051</p>
+                    </div>
+                </div>
+                <form id="checkout-form">
+                    <input type="text" id="cust-name" placeholder="Full Name" required>
+                    <input type="tel" id="momo-number" placeholder="MoMo Number" required>
+                    <input type="text" id="transaction-ref" placeholder="Transaction ID" required>
+                    <input type="number" id="amount-paid" placeholder="Amount Paid (GHS)" required>
+                    <button type="submit" class="btn-primary">Confirm Payment</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="admin" class="page">
+            <h2 class="section-title">Admin Dashboard</h2>
+            <div class="admin-container">
+                <div class="admin-box">
+                    <h3>📸 Change Homepage Image</h3>
+                    <p style="font-size: 0.8rem; margin-bottom: 10px;">Update the main background image on your home screen.</p>
+                    <input type="file" id="hero-upload" accept="image/*">
+                    <button onclick="updateHeroImage()" class="btn-primary" style="margin-top:10px;">Update Hero Image</button>
+                </div>
+
+                <div class="admin-box">
+                    <h3>➕ Add New Product</h3>
+                    <form id="add-product-form">
+                        <input type="text" id="new-name" placeholder="Product Name" required>
+                        <input type="number" id="new-price" placeholder="Price" required>
+                        <input type="number" id="new-stock" placeholder="Stock Quantity" required>
+                        <select id="new-category" required>
+                            <option value="Dresses">Dresses</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Footwear">Footwear</option>
+                            <option value="Bags & Accessories">Accessories</option>
+                            <option value="Kitchen Appliances">Kitchen & Home</option>
+                        </select>
+                        <textarea id="new-desc" placeholder="Description..." required></textarea>
+                        <input type="file" id="new-image-file" accept="image/*" required>
+                        <button type="submit" class="btn-primary">Save Product</button>
+                    </form>
+                </div>
+
+                <div class="admin-box" style="grid-column: 1/-1;">
+                    <h3>📦 Orders & Inventory</h3>
+                    <div id="admin-inventory-list"></div>
+                    <div id="admin-orders-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="minimal-footer">
+            <p>&copy; 2026 Bee's Collections. <a href="#login">Staff Login</a></p>
+        </footer>
+    </div>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modal-body" class="modal-body-grid"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
