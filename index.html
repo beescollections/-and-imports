@@ -212,14 +212,19 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+   <script src="app.js"></script>
     <script>
+      // THE NUCLEAR CACHE BOMBER
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(registration => console.log('App Engine Registered!'))
-            .catch(err => console.log('App Engine Failed: ', err));
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister().then(function(boolean) {
+                console.log("Service Worker forcefully killed: ", boolean);
+            });
+          }
         });
+        // Notice we are NOT registering the sw.js right now. 
+        // We are just killing the old one.
       }
     </script>
 </body>
