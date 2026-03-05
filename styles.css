@@ -1,9 +1,16 @@
 :root {
-    --cream: #FAF9F6;
-    --blush: #F8C8DC;
-    --beige: #F5F5DC;
-    --gold: #D4AF37;
-    --dark: #333333;
+    /* The New White & Black Glassmorphism Palette */
+    --bg-light: #f4f4f5; /* Very subtle grey background to make the glass pop */
+    --glass: rgba(255, 255, 255, 0.65); /* Frosted glass background */
+    --glass-border: rgba(0, 0, 0, 0.1); /* Thin black lines */
+    --dark: #000000; /* Pure black text and accents */
+    
+    /* Legacy variables re-mapped to protect your existing HTML/JS inline styles */
+    --cream: var(--glass);
+    --blush: rgba(255, 255, 255, 0.4);
+    --beige: rgba(255, 255, 255, 0.5);
+    --gold: var(--dark); /* Replaces all gold with sleek black */
+    
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Poppins', sans-serif;
 }
@@ -12,22 +19,37 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--cream);
+    background-color: var(--bg-light);
+    /* Subtle background mesh to make the transparent glass visible */
+    background-image: 
+        radial-gradient(at 0% 0%, #ffffff 0px, transparent 50%),
+        radial-gradient(at 100% 100%, #eaeaea 0px, transparent 50%);
+    background-attachment: fixed;
     color: var(--dark);
     line-height: 1.6;
 }
 
-/* Navigation */
+/* Navigation - Floating Frosted Glass */
 nav {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5%; background-color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 20px 5%; 
+    background-color: var(--glass); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--glass-border);
     position: sticky; top: 0; z-index: 100;
 }
-.logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--gold); }
+.logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--dark); }
 .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; }
-.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
-.nav-links a:hover { color: var(--gold); }
-.cart-link { background: var(--blush); padding: 8px 15px; border-radius: 20px; }
+.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; opacity: 0.7; }
+.nav-links a:hover { opacity: 1; }
+.cart-link { 
+    background: transparent; 
+    border: 1px solid var(--glass-border);
+    padding: 8px 15px; border-radius: 20px; 
+    opacity: 1 !important; 
+    backdrop-filter: blur(5px);
+}
 
 /* Pages & SPA Routing */
 .page { display: none; padding: 40px 5%; min-height: 70vh; }
@@ -38,66 +60,114 @@ nav {
 .section-title { text-align: center; font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 40px; color: var(--dark); }
 .text-container { max-width: 600px; margin: 0 auto; text-align: center; }
 
+/* Ghost Buttons (Transparent with Thin Black Borders) */
 .btn-primary {
-    background-color: var(--gold); color: #fff; border: none; padding: 12px 24px;
+    background-color: transparent; 
+    color: var(--dark); 
+    border: 1px solid var(--dark); 
+    padding: 12px 24px;
     font-family: var(--font-body); font-weight: 600; border-radius: 5px; cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; text-decoration: none; display: inline-block; width: 100%; text-align: center;
+    transition: all 0.3s ease; text-decoration: none; display: inline-block; width: 100%; text-align: center;
+    backdrop-filter: blur(5px);
 }
-.btn-primary:hover { background-color: #bfa133; transform: scale(1.02); }
+.btn-primary:hover { background-color: var(--dark); color: #fff; transform: scale(1.02); }
 
 /* Hero Section */
 .hero { 
     text-align: center; padding: 120px 20px; 
-    background: linear-gradient(rgba(250,249,246,0.7), rgba(248,200,220,0.6)), url('https://images.unsplash.com/photo-1566206091558-4f11ef732043?auto=format&fit=crop&q=80') center/cover; 
+    /* Minimalist, high-end white background placeholder image with a glass overlay */
+    background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?auto=format&fit=crop&q=80') center/cover; 
     border-radius: 15px; margin-top: 20px; 
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.05);
 }
 .hero h1 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 15px; color: var(--dark); }
-.hero p { font-size: 1.2rem; margin-bottom: 25px; }
-.hero .btn-primary { width: auto; }
+.hero p { font-size: 1.2rem; margin-bottom: 25px; color: var(--dark); }
+.hero .btn-primary { width: auto; background-color: var(--glass); }
+.hero .btn-primary:hover { background-color: var(--dark); color: #fff; }
 
-/* Product Grid */
+/* Product Grid & Glass Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 .product-card { 
-    background: #fff; border-radius: 10px; overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s; 
+    background: var(--glass); 
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 10px; overflow: hidden; 
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+    transition: transform 0.3s, box-shadow 0.3s; 
     text-align: center; padding-bottom: 20px; cursor: pointer;
 }
-.product-card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
 .product-card img { width: 100%; height: 380px; object-fit: cover; }
 .product-card h3 { margin: 15px 0 5px; font-family: var(--font-heading); font-size: 1.2rem;}
-.product-card p { color: var(--gold); font-weight: 600; font-size: 1.1rem; }
+.product-card p { color: var(--dark); font-weight: 600; font-size: 1.1rem; }
 
 /* Modal (Product Details) */
-.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-.modal-content { background-color: #fff; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; position: relative; animation: fadeIn 0.3s; }
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; color: #999; }
-.close-modal:hover { color: var(--dark); }
+.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+.modal-content { 
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; position: relative; animation: fadeIn 0.3s; 
+}
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; color: var(--dark); opacity: 0.5; }
+.close-modal:hover { opacity: 1; }
 .modal-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 .modal-body-grid img { width: 100%; height: 400px; object-fit: cover; border-radius: 5px; }
 .modal-info h2 { font-family: var(--font-heading); margin-bottom: 10px; }
-.modal-info .price { color: var(--gold); font-size: 1.5rem; font-weight: bold; margin-bottom: 15px; }
-.modal-info select { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body); }
+.modal-info .price { color: var(--dark); font-size: 1.5rem; font-weight: bold; margin-bottom: 15px; }
+.modal-info select { 
+    width: 100%; padding: 10px; margin: 15px 0; 
+    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border); border-radius: 5px; font-family: var(--font-body); 
+}
 
 /* Cart & Checkout */
-.cart-container { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
-.remove-btn { background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+.cart-container { 
+    max-width: 800px; margin: 0 auto; padding: 30px; border-radius: 10px; 
+    background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+}
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--glass-border); }
+.remove-btn { background: transparent; color: var(--dark); border: 1px solid var(--dark); padding: 8px 12px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+.remove-btn:hover { background: #ff4d4d; color: white; border-color: #ff4d4d; }
 .cart-summary { margin-top: 20px; text-align: right; }
 .cart-summary h3 { margin-bottom: 15px; font-size: 1.5rem; }
 
-.checkout-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.momo-box { background-color: var(--beige); padding: 20px; border-radius: 5px; margin: 15px 0; border-left: 4px solid var(--gold); }
+.checkout-container { 
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; 
+    background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); padding: 30px; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+}
+.momo-box { 
+    background-color: rgba(255, 255, 255, 0.4); backdrop-filter: blur(5px);
+    padding: 20px; border-radius: 5px; margin: 15px 0; 
+    border-left: 4px solid var(--dark); border-top: 1px solid var(--glass-border); border-right: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); 
+}
 form { display: flex; flex-direction: column; gap: 15px; }
-input { padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body); }
-input:focus { outline: none; border-color: var(--gold); }
+input, textarea { 
+    padding: 12px; font-family: var(--font-body);
+    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border); border-radius: 5px; 
+}
+input:focus, textarea:focus { outline: none; border-color: var(--dark); background: rgba(255, 255, 255, 0.8); }
 .file-upload label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #666; }
 
 /* Admin Dashboard */
 .admin-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 0 auto; }
-.admin-box { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; background: var(--cream); margin-bottom: 10px; border-radius: 5px; }
+.admin-box { 
+    background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); padding: 25px; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.04); 
+}
+.admin-item { 
+    display: flex; justify-content: space-between; align-items: center; padding: 10px; 
+    background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border); margin-bottom: 10px; border-radius: 5px; 
+}
 .admin-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
-.btn-danger { background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+.btn-danger { background: transparent; color: var(--dark); border: 1px solid var(--dark); padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+.btn-danger:hover { background: #ff4d4d; color: white; border-color: #ff4d4d; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -113,16 +183,12 @@ input:focus { outline: none; border-color: var(--gold); }
     .nav-links { 
         display: flex; 
         width: 100%; 
-        overflow-x: auto; /* Enables horizontal swiping */
+        overflow-x: auto; 
         justify-content: flex-start; 
         gap: 20px;
         padding-bottom: 5px; 
-        scrollbar-width: none; /* Hides the ugly scrollbar in Firefox */
+        scrollbar-width: none; 
     }
-    .nav-links::-webkit-scrollbar { 
-        display: none; /* Hides the ugly scrollbar in Chrome/Safari/iOS */
-    }
-    .nav-links li { 
-        white-space: nowrap; /* Forces links to stay on one line */
-    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links li { white-space: nowrap; }
 }
