@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#D4AF37">
+    <meta name="theme-color" content="#2563EB">
     <link rel="apple-touch-icon" href="icon-192.png">
     <title>Bee's Collections and Import</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -29,9 +29,11 @@
         
         <section id="home" class="page active">
             <div class="hero">
-                <h1>Everyday Style, Everyday Home</h1>
-                <p>From stunning dresses and accessories to top-tier kitchen appliances. We sell and import it all.</p>
-                <button class="btn-primary" onclick="navigate('shop')">Shop the Collection</button>
+                <div class="hero-glass-card">
+                    <h1>Everyday Style, Everyday Home</h1>
+                    <p>From stunning dresses and accessories to top-tier kitchen appliances. We sell and import it all.</p>
+                    <button class="btn-primary" onclick="navigate('shop')">Shop the Collection</button>
+                </div>
             </div>
         </section>
 
@@ -48,179 +50,4 @@
                     <option value="Bags & Accessories">Bags, Scrunchies & Accessories</option>
                     <option value="Beauty">Beauty (Lip Gloss, etc.)</option>
                     <option value="Kitchen Appliances">Kitchen Appliances & Home</option>
-                </select>
-            </div>
-
-            <div id="product-grid" class="grid"></div>
-        </section>
-
-        <section id="cart" class="page">
-            <h2 class="section-title">Your Cart</h2>
-            <div class="cart-container">
-                <div id="cart-items"></div>
-                <div class="cart-summary">
-                    <h3>Total: GHS <span id="cart-total">0.00</span></h3>
-                    <button class="btn-primary" onclick="navigate('checkout')">Proceed to Checkout</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="checkout" class="page">
-            <h2 class="section-title">Complete Your Order</h2>
-            <div class="checkout-container">
-                <div class="momo-instructions">
-                    <h3>Mobile Money Instructions</h3>
-                    <p>Please send your total amount to one of the following official numbers:</p>
-                    
-                    <div class="momo-box">
-                        <div style="margin-bottom: 15px;">
-                            <p style="color: var(--gold); font-weight: 600; margin-bottom: 5px;">Option 1:</p>
-                            <p><strong>Name:</strong> Beatrice Panford</p>
-                            <p><strong>Number:</strong> 0240332608</p>
-                            <p><strong>Network:</strong> MTN</p>
-                        </div>
-                        <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-                        <div>
-                            <p style="color: var(--gold); font-weight: 600; margin-bottom: 5px;">Option 2:</p>
-                            <p><strong>Name:</strong> Getrude Panfo</p>
-                            <p><strong>Number:</strong> +233 24 874 7051</p>
-                            <p><strong>Network:</strong> MTN</p>
-                        </div>
-                    </div>
-
-                    <p>After sending, fill out the form below so we can verify and ship your order.</p>
-                </div>
-
-                <form id="checkout-form">
-                    <input type="text" id="cust-name" placeholder="Full Name" required>
-                    <input type="tel" id="momo-number" placeholder="Your MoMo Number" required>
-                    <input type="text" id="transaction-ref" placeholder="Transaction Reference ID" required>
-                    <input type="number" id="amount-paid" placeholder="Amount Paid (GHS)" required>
-                    <div class="file-upload">
-                        <label for="payment-screenshot">Screenshot of Payment (Optional)</label>
-                        <input type="file" id="payment-screenshot" accept="image/*">
-                    </div>
-                    <button type="submit" class="btn-primary">Confirm Payment</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="about" class="page">
-            <h2 class="section-title">About Bee's Collections and Import</h2>
-            <div class="text-container">
-                <p>Bee's Collections and Import brings you the best in fashion, home essentials, and lifestyle accessories. Whether you need a stunning outfit for the weekend or a reliable blender for your kitchen, we source high-quality products to elevate your everyday life.</p>
-            </div>
-        </section>
-        
-        <section id="contact" class="page">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="text-container" style="text-align: center;">
-                <p>Have questions about a product or order? We are here to help.</p>
-                
-                <div style="margin: 30px 0; padding: 25px; background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
-                    <h3 style="margin-bottom: 20px; font-family: var(--font-heading); color: var(--gold); text-align: center;">Connect With Us</h3>
-                    <p style="margin: 15px 0; font-size: 1.1rem;"><strong>📞 Phone:</strong> <a href="tel:+233240332608" style="color: var(--dark); text-decoration: none;">0240332608</a></p>
-                    <p style="margin: 15px 0; font-size: 1.1rem;"><strong>💬 WhatsApp:</strong> <a href="https://wa.me/233240332608" target="_blank" style="color: #25D366; text-decoration: none; font-weight: 500;">Chat with us</a></p>
-                    <p style="margin: 15px 0; font-size: 1.1rem;"><strong>👻 Snapchat:</strong> <a href="https://snapchat.com/add/nana_akosuab" target="_blank" style="color: #FFFC00; text-shadow: 0px 0px 1px #000; text-decoration: none; font-weight: 600;">@nana_akosuab</a></p>
-                    <p style="margin: 15px 0; font-size: 1.1rem;"><strong>🎵 TikTok:</strong> <a href="https://www.tiktok.com/@bees_collections" target="_blank" style="color: var(--dark); text-decoration: none; font-weight: 500;">@bees_collections</a></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="login" class="page">
-            <h2 class="section-title">Staff Login</h2>
-            <div class="checkout-container" style="grid-template-columns: 1fr; max-width: 400px;">
-                <form id="login-form">
-                    <p style="text-align: center; margin-bottom: 15px;">Secure Staff Access</p>
-                    <input type="email" id="admin-email" placeholder="Admin Email" required style="margin-bottom: 15px; width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;">
-                    <input type="password" id="admin-password" placeholder="Password" required style="margin-bottom: 15px; width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;">
-                    <button type="submit" class="btn-primary" style="width: 100%;">Secure Login</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="admin" class="page">
-            <h2 class="section-title">Store Admin Dashboard</h2>
-            
-            <div style="text-align: center; margin-bottom: 30px;">
-                <button onclick="adminLogout()" style="background: #333; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Secure Logout</button>
-            </div>
-
-            <div class="admin-container">
-                <div class="admin-box">
-                    <h3>➕ Add New Product</h3>
-                    <form id="add-product-form" style="margin-top: 15px;">
-                        <input type="text" id="new-name" placeholder="Product Name" required>
-                        <input type="number" id="new-price" placeholder="Price (GHS)" required>
-                        
-                        <input type="number" id="new-stock" placeholder="Quantity in Stock" required style="margin-bottom: 15px; width: 100%;">
-
-                        <select id="new-category" required style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body); margin-bottom: 15px; width: 100%;">
-                            <option value="" disabled selected>Select a Category...</option>
-                            <option value="Dresses">Dresses (Party, Dinner, SHEIN)</option>
-                            <option value="Clothing">Clothing & Nightwear</option>
-                            <option value="Footwear">Footwear (Sneakers, Heels, Slippers)</option>
-                            <option value="Bags & Accessories">Bags, Scrunchies & Accessories</option>
-                            <option value="Beauty">Beauty (Lip Gloss, etc.)</option>
-                            <option value="Kitchen Appliances">Kitchen Appliances & Home</option>
-                        </select>
-
-                        <textarea id="new-desc" placeholder="Product Description..." rows="3" required style="padding: 10px; font-family: 'Poppins', sans-serif; border: 1px solid #ccc; border-radius: 5px;"></textarea>
-                        
-                        <div class="file-upload" style="margin-bottom: 10px; text-align: left;">
-                            <label for="new-image-file" style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem;">Upload Photo:</label>
-                            <input type="file" id="new-image-file" accept="image/*" required style="width: 100%;">
-                        </div>
-
-                        <button type="submit" class="btn-primary">Save to Store</button>
-                    </form>
-                </div>
-
-                <div class="admin-box">
-                    <h3>👗 Current Inventory</h3>
-                    <div id="admin-inventory-list" style="margin-top: 15px; max-height: 400px; overflow-y: auto;">
-                        </div>
-                </div>
-
-                <div class="admin-box" style="grid-column: 1 / -1; margin-top: 20px;">
-                    <h3>📦 Incoming Customer Orders</h3>
-                    <input type="text" id="order-search" placeholder="Search orders by Customer Name, MoMo Number, or Ref ID..." onkeyup="searchOrders()" style="width: 100%; padding: 12px; margin-top: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body);">
-                    <div id="admin-orders-list" style="margin-top: 15px; max-height: 500px; overflow-y: auto;">
-                        <p>Loading orders...</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <footer style="text-align: center; padding: 40px 20px; margin-top: 40px; border-top: 1px solid #eee; font-size: 0.9rem; color: #666;">
-            <div style="margin-bottom: 15px;">
-                <a href="https://wa.me/233240332608" target="_blank" style="margin: 0 10px; color: #666; text-decoration: none; font-weight: 500;">WhatsApp</a> |
-                <a href="https://snapchat.com/add/nana_akosuab" target="_blank" style="margin: 0 10px; color: #666; text-decoration: none; font-weight: 500;">Snapchat</a> |
-                <a href="https://www.tiktok.com/@bees_collections" target="_blank" style="margin: 0 10px; color: #666; text-decoration: none; font-weight: 500;">TikTok</a>
-            </div>
-            <p>&copy; 2026 Bee's Collections and Import. All rights reserved.</p>
-            <a href="#login" style="color: #ccc; text-decoration: none; font-size: 0.8rem; margin-top: 10px; display: inline-block;">Staff Login</a>
-        </footer>
-    </div>
-
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div id="modal-body" class="modal-body-grid">
-                </div>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(registration => console.log('App Engine Registered!'))
-            .catch(err => console.log('App Engine Failed: ', err));
-        });
-      }
-    </script>
-</body>
-</html>
+                </
