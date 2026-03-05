@@ -213,19 +213,6 @@
     </div>
 
    <script src="app.js"></script>
-    <script>
-      // THE NUCLEAR CACHE BOMBER
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for(let registration of registrations) {
-            registration.unregister().then(function(boolean) {
-                console.log("Service Worker forcefully killed: ", boolean);
-            });
-          }
-        });
-        // Notice we are NOT registering the sw.js right now. 
-        // We are just killing the old one.
-      }
-    </script>
-</body>
+   </body>
 </html>
+
