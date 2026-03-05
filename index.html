@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#D4AF37">
     <link rel="apple-touch-icon" href="icon-192.png">
     <title>Bee's Collections and Import</title>
@@ -17,11 +17,11 @@
     <nav>
         <div class="logo">Bee's Collections and Import</div>
         <ul class="nav-links">
-            <li><a href="#" onclick="navigate('home')">Home</a></li>
-            <li><a href="#" onclick="navigate('shop')">Shop</a></li>
-            <li><a href="#" onclick="navigate('about')">About</a></li>
-            <li><a href="#" onclick="navigate('contact')">Contact</a></li>
-            <li><a href="#" onclick="navigate('cart')" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#cart" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
         </ul>
     </nav>
 
@@ -200,7 +200,7 @@
                 <a href="https://www.tiktok.com/@bees_collections" target="_blank" style="margin: 0 10px; color: #666; text-decoration: none; font-weight: 500;">TikTok</a>
             </div>
             <p>&copy; 2026 Bee's Collections and Import. All rights reserved.</p>
-            <a href="#" onclick="navigate('login')" style="color: #ccc; text-decoration: none; font-size: 0.8rem; margin-top: 10px; display: inline-block;">Staff Login</a>
+            <a href="#login" style="color: #ccc; text-decoration: none; font-size: 0.8rem; margin-top: 10px; display: inline-block;">Staff Login</a>
         </footer>
     </div>
 
@@ -213,7 +213,7 @@
     </div>
 
     <script src="app.js"></script>
-<script>
+    <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('sw.js')
@@ -224,5 +224,3 @@
     </script>
 </body>
 </html>
-
-
