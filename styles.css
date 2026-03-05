@@ -1,9 +1,10 @@
 :root {
-    --cream: #FAF9F6;
-    --blush: #F8C8DC;
-    --beige: #F5F5DC;
-    --gold: #D4AF37;
-    --dark: #333333;
+    /* NEW: Vibrant, Unisex, Premium Palette */
+    --bg-light: #F8F9FA; 
+    --vibrant-1: #2563EB; /* Royal Blue */
+    --vibrant-2: #14B8A6; /* Electric Teal */
+    --gold: #D4AF37; 
+    --dark: #1E293B; /* Slate Dark */
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Poppins', sans-serif;
 }
@@ -12,22 +13,32 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--cream);
+    background-color: var(--bg-light);
     color: var(--dark);
     line-height: 1.6;
 }
 
-/* Navigation */
+/* Navigation - NEW: Frosted Glass Nav Bar */
 nav {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5%; background-color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 20px 5%; 
+    background-color: rgba(255, 255, 255, 0.85); /* Transparent White */
+    backdrop-filter: blur(12px); /* Blur effect behind the nav */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     position: sticky; top: 0; z-index: 100;
 }
-.logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--gold); }
+.logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--vibrant-1); }
 .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; }
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
-.nav-links a:hover { color: var(--gold); }
-.cart-link { background: var(--blush); padding: 8px 15px; border-radius: 20px; }
+.nav-links a:hover { color: var(--vibrant-2); }
+.cart-link { 
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(20, 184, 166, 0.1)); 
+    padding: 8px 15px; 
+    border-radius: 20px; 
+    color: var(--vibrant-1) !important;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+}
 
 /* Pages & SPA Routing */
 .page { display: none; padding: 40px 5%; min-height: 70vh; }
@@ -38,22 +49,54 @@ nav {
 .section-title { text-align: center; font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 40px; color: var(--dark); }
 .text-container { max-width: 600px; margin: 0 auto; text-align: center; }
 
+/* NEW: Vibrant Gradient Buttons */
 .btn-primary {
-    background-color: var(--gold); color: #fff; border: none; padding: 12px 24px;
-    font-family: var(--font-body); font-weight: 600; border-radius: 5px; cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; text-decoration: none; display: inline-block; width: 100%; text-align: center;
+    background: linear-gradient(135deg, var(--vibrant-1), var(--vibrant-2)); 
+    color: #fff; border: none; padding: 12px 24px;
+    font-family: var(--font-body); font-weight: 600; border-radius: 8px; cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s; 
+    text-decoration: none; display: inline-block; width: 100%; text-align: center;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
-.btn-primary:hover { background-color: #bfa133; transform: scale(1.02); }
+.btn-primary:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4); 
+}
 
-/* Hero Section */
+/* Hero Section - NEW: Glassmorphism & High-End Look */
 .hero { 
-    text-align: center; padding: 120px 20px; 
-    background: linear-gradient(rgba(250,249,246,0.7), rgba(248,200,220,0.6)), url('https://images.unsplash.com/photo-1566206091558-4f11ef732043?auto=format&fit=crop&q=80') center/cover; 
-    border-radius: 15px; margin-top: 20px; 
+    position: relative;
+    text-align: center; padding: 100px 20px; 
+    /* NEW: A more vibrant, unisex lifestyle background image */
+    background: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80') center/cover; 
+    border-radius: 20px; margin-top: 10px; 
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
-.hero h1 { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 15px; color: var(--dark); }
-.hero p { font-size: 1.2rem; margin-bottom: 25px; }
-.hero .btn-primary { width: auto; }
+
+.hero-glass-card {
+    background: rgba(255, 255, 255, 0.15); /* Transparent white */
+    backdrop-filter: blur(16px); /* The frosted glass magic */
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Shiny glass edge */
+    padding: 50px 40px;
+    border-radius: 15px;
+    max-width: 650px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 { 
+    font-family: var(--font-heading); 
+    font-size: 3.5rem; margin-bottom: 15px; 
+    color: #fff; 
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3); 
+}
+.hero p { 
+    font-size: 1.2rem; margin-bottom: 30px; 
+    color: #fff;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3); 
+}
+.hero .btn-primary { width: auto; font-size: 1.1rem; padding: 15px 30px; border: 1px solid rgba(255,255,255,0.3); }
 
 /* Product Grid */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
@@ -85,44 +128,4 @@ nav {
 .cart-summary { margin-top: 20px; text-align: right; }
 .cart-summary h3 { margin-bottom: 15px; font-size: 1.5rem; }
 
-.checkout-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.momo-box { background-color: var(--beige); padding: 20px; border-radius: 5px; margin: 15px 0; border-left: 4px solid var(--gold); }
-form { display: flex; flex-direction: column; gap: 15px; }
-input { padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body); }
-input:focus { outline: none; border-color: var(--gold); }
-.file-upload label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #666; }
-
-/* Admin Dashboard */
-.admin-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 0 auto; }
-.admin-box { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; background: var(--cream); margin-bottom: 10px; border-radius: 5px; }
-.admin-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
-.btn-danger { background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-
-/* Responsive */
-@media (max-width: 768px) {
-    .checkout-container, .modal-body-grid, .admin-container { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 2.5rem; }
-    
-    /* MOBILE APP NAVIGATION UPGRADE */
-    nav { 
-        flex-direction: column; 
-        gap: 15px; 
-        padding: 15px 5%; 
-    }
-    .nav-links { 
-        display: flex; 
-        width: 100%; 
-        overflow-x: auto; /* Enables horizontal swiping */
-        justify-content: flex-start; 
-        gap: 20px;
-        padding-bottom: 5px; 
-        scrollbar-width: none; /* Hides the ugly scrollbar in Firefox */
-    }
-    .nav-links::-webkit-scrollbar { 
-        display: none; /* Hides the ugly scrollbar in Chrome/Safari/iOS */
-    }
-    .nav-links li { 
-        white-space: nowrap; /* Forces links to stay on one line */
-    }
-}
+.checkout-container { display: grid;
