@@ -42,19 +42,16 @@ async function fetchProducts() {
 
 // --- 4. NAVIGATION & ROUTING ---
 function navigate(pageId) {
-    // This allows our existing buttons to easily change the URL
     window.location.hash = pageId; 
 }
 
 function handleRouting() {
-    // Get the page name from the URL (removes the '#')
     let pageId = window.location.hash.substring(1);
-    if (!pageId) pageId = 'home'; // Default to home if no hash
+    if (!pageId) pageId = 'home';
 
     const pages = document.querySelectorAll('.page');
     let pageExists = false;
 
-    // Hide all pages, show the active one
     pages.forEach(page => {
         if (page.id === pageId) {
             page.classList.add('active');
@@ -64,7 +61,6 @@ function handleRouting() {
         }
     });
 
-    // Fallback if a customer types a broken link
     if (!pageExists) {
         document.getElementById('home').classList.add('active');
         pageId = 'home';
@@ -72,7 +68,6 @@ function handleRouting() {
 
     window.scrollTo(0, 0);
     
-    // Run page-specific logic
     if (pageId === 'cart') renderCart();
     if (pageId === 'admin') {
         renderAdminInventory();
@@ -80,7 +75,6 @@ function handleRouting() {
     }
 }
 
-// Listen for the Back/Forward buttons, and the initial page load!
 window.addEventListener('hashchange', handleRouting);
 window.addEventListener('load', handleRouting);
 
@@ -243,20 +237,47 @@ document.getElementById('checkout-form').addEventListener('submit', async (e) =>
     
     const userAmountPaid = parseFloat(document.getElementById('amount-paid').value);
 
+    // Exact amount enforcement
     if (userAmountPaid < exactCartTotal) {
         alert(`Payment Incomplete!\n\nYour cart total is GHS ${exactCartTotal.toFixed(2)}, but you only entered GHS ${userAmountPaid.toFixed(2)}.\n\nPlease pay the full amount to place your order.`);
         return; 
     }
 
     const btn = e.target.querySelector('button');
-    btn.innerText = 'Submitting Order...';
+    btn.innerText = 'Uploading Screenshot...';
     btn.disabled = true;
+
+    // --- NEW: UPLOAD THE SCREENSHOT TO SUPABASE ---
+    const screenshotFile = document.getElementById('payment-screenshot').files[0];
+    let screenshotUrl = null;
+
+    if (screenshotFile) {
+        const fileName = `momo-${Date.now()}-${screenshotFile.name.replace(/\s+/g, '-')}`;
+        const { data: uploadData, error: uploadError } = await client.storage
+            .from('payment-screenshots')
+            .upload(fileName, screenshotFile);
+
+        if (uploadError) {
+            console.error("Upload error:", uploadError);
+            alert("Failed to upload payment screenshot. Please check your internet connection.");
+            btn.innerText = 'Confirm Payment';
+            btn.disabled = false;
+            return; // Stop the checkout if the image fails
+        }
+
+        const { data: urlData } = client.storage.from('payment-screenshots').getPublicUrl(fileName);
+        screenshotUrl = urlData.publicUrl;
+    }
+
+    btn.innerText = 'Submitting Order...';
 
     const orderData = {
         customer_name: document.getElementById('cust-name').value,
         momo_number: document.getElementById('momo-number').value,
         transaction_ref: document.getElementById('transaction-ref').value,
         amount: userAmountPaid,
+        delivery_address: document.getElementById('delivery-address').value,
+        screenshot_url: screenshotUrl,
         cart_items: cart,
         status: 'pending'
     };
@@ -275,7 +296,6 @@ document.getElementById('checkout-form').addEventListener('submit', async (e) =>
             }
         }
 
-        // Format the cart into a neat HTML list for the email
         let itemsListHtml = '<ul style="margin: 0; padding-left: 20px;">';
         cart.forEach(item => {
             itemsListHtml += `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - Option: ${item.selectedSize} (GHS ${parseFloat(item.price).toFixed(2)})</li>`;
@@ -288,14 +308,11 @@ document.getElementById('checkout-form').addEventListener('submit', async (e) =>
             amount: orderData.amount,
             momo_number: orderData.momo_number,
             transaction_ref: orderData.transaction_ref,
+            delivery_address: orderData.delivery_address,
             order_summary: itemsListHtml 
         }).then(
-            function(response) {
-                console.log("Email notification sent successfully", response);
-            },
-            function(error) {
-                console.error("Email notification failed", error);
-            }
+            function(response) { console.log("Email notification sent successfully", response); },
+            function(error) { console.error("Email notification failed", error); }
         );
 
         alert('Payment Details Submitted Successfully! \n\nWe will verify your MoMo transaction and contact you regarding delivery.');
@@ -484,6 +501,11 @@ function renderAdminOrders(orders) {
             balanceHtml = `<p style="color: #25D366; font-weight: bold; font-size: 0.95rem; margin-top: 5px;">✅ Fully Paid</p>`;
         }
 
+        // Generate Screenshot Button
+        const screenshotBtn = order.screenshot_url 
+            ? `<a href="${order.screenshot_url}" target="_blank" style="display: inline-block; margin-top: 10px; padding: 6px 12px; background: var(--dark); color: #fff; text-decoration: none; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">📄 View MoMo Receipt</a>`
+            : `<p style="color: red; font-size: 0.85rem; margin-top: 10px;">No Receipt Uploaded</p>`;
+
         list.innerHTML += `
             <div style="background: var(--cream); padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid var(--gold); position: relative;">
                 
@@ -495,6 +517,7 @@ function renderAdminOrders(orders) {
                 <h4 style="margin-bottom: 5px; max-width: 65%;">Order from: ${order.customer_name}</h4>
                 <p style="font-size: 0.85rem; margin-bottom: 2px;"><strong>MoMo Number:</strong> ${order.momo_number}</p>
                 <p style="font-size: 0.85rem; margin-bottom: 2px;"><strong>Ref ID:</strong> ${order.transaction_ref}</p>
+                <p style="font-size: 0.85rem; margin-bottom: 2px;"><strong>Delivery Address:</strong> ${order.delivery_address || 'Not provided'}</p>
                 <p style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Status:</strong> <span style="color: ${order.status === 'Completed' ? 'green' : 'orange'}; font-weight: bold;">${order.status.toUpperCase()}</span></p>
                 
                 <strong>Items to Pack:</strong>
@@ -504,6 +527,7 @@ function renderAdminOrders(orders) {
                     <p style="font-size: 0.9rem; margin-bottom: 3px;"><strong>Cart Total Price:</strong> GHS ${cartTotal.toFixed(2)}</p>
                     <p style="font-size: 0.9rem; margin-bottom: 3px;"><strong>Amount Paid by Customer:</strong> GHS ${amountPaid.toFixed(2)}</p>
                     ${balanceHtml}
+                    ${screenshotBtn}
                 </div>
             </div>
         `;
@@ -555,7 +579,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     submitBtn.innerText = 'Authenticating...';
     submitBtn.disabled = true;
 
-    // Ask Supabase to securely log this person in
     const { data, error } = await client.auth.signInWithPassword({
         email: emailInput,
         password: passwordInput,
