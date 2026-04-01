@@ -8,9 +8,10 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     <title>Bee's Collections and Import</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 <body>
 
@@ -30,7 +31,7 @@
         <section id="home" class="page active">
             <div class="hero">
                 <h1>Everyday Style, Everyday Home</h1>
-                <p>From stunning dresses and accessories to top-tier home appliances. We sell and import it all.</p>
+                <p>From stunning dresses and accessories to top-tier kitchen appliances. We sell and import it all.</p>
                 <button class="btn-primary" onclick="navigate('shop')">Shop the Collection</button>
             </div>
         </section>
@@ -67,41 +68,19 @@
 
         <section id="checkout" class="page">
             <h2 class="section-title">Complete Your Order</h2>
-            <div class="checkout-container">
-                <div class="momo-instructions">
-                    <h3>Mobile Money Instructions</h3>
-                    <p>Please send your total amount to one of the following official numbers:</p>
-                    
-                    <div class="momo-box">
-                        <div style="margin-bottom: 15px;">
-                            <p style="color: var(--gold); font-weight: 600; margin-bottom: 5px;">Option 1:</p>
-                            <p><strong>Name:</strong> Beatrice Panford</p>
-                            <p><strong>Number:</strong> 0240332608</p>
-                            <p><strong>Network:</strong> MTN</p>
-                        </div>
-                        <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-                        <div>
-                            <p style="color: var(--gold); font-weight: 600; margin-bottom: 5px;">Option 2:</p>
-                            <p><strong>Name:</strong> Getrude Panfo</p>
-                            <p><strong>Number:</strong> +233 24 874 7051</p>
-                            <p><strong>Network:</strong> MTN</p>
-                        </div>
-                    </div>
-
-                    <p>After sending, fill out the form below so we can verify and ship your order.</p>
+            <div class="checkout-container" style="grid-template-columns: 1fr; max-width: 600px;">
+                <div class="momo-instructions" style="text-align: center;">
+                    <h3>Secure Checkout</h3>
+                    <p>Enter your details below to securely pay via MoMo or Card using Paystack. The exact cart amount will be charged automatically.</p>
                 </div>
 
                 <form id="checkout-form">
                     <input type="text" id="cust-name" placeholder="Full Name" required>
+                    <input type="email" id="cust-email" placeholder="Email Address" required style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body);">
                     <input type="tel" id="momo-number" placeholder="Your MoMo Number" required>
-                    <textarea id="delivery-address" placeholder="Delivery Address / GPS Location" rows="2" required style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body);"></textarea>
-                    <input type="text" id="transaction-ref" placeholder="Transaction Reference ID" required>
-                    <input type="number" id="amount-paid" placeholder="Amount Paid (GHS)" required>
-                    <div class="file-upload">
-                        <label for="payment-screenshot">Screenshot of Payment (Required)</label>
-                        <input type="file" id="payment-screenshot" accept="image/*" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Confirm Payment</button>
+                    <textarea id="delivery-address" placeholder="Delivery Address / GPS Location" rows="3" required style="padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: var(--font-body);"></textarea>
+                    
+                    <button type="submit" id="pay-btn" class="btn-primary">Pay Now Securely</button>
                 </form>
             </div>
         </section>
