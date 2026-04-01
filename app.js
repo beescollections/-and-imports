@@ -1,6 +1,6 @@
 // --- 0. API KEYS ---
 // FIX: Use your TEST key here until Paystack officially verifies her business documents!
-const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_TEST_KEY_HERE'; 
+const PAYSTACK_PUBLIC_KEY = 'pk_live_0e7c17571693c054970ee243c4c9f2b3e8f7a14a'; 
 
 // Uncomment the line below ONLY after Paystack emails Bee saying her account is 100% verified and live.
 // const PAYSTACK_PUBLIC_KEY = 'pk_live_0e7c17571693c054970ee243c4c9f2b3e8f7a14a';
