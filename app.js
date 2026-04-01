@@ -252,7 +252,7 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
     let handler = PaystackPop.setup({
         key: PAYSTACK_PUBLIC_KEY, 
         email: email,
-        amount: Math.round(exactCartTotal * 100), // FIX: Math.round removes tiny decimals that crash Paystack
+        amount: Math.round(exactCartTotal * 100), // Math.round removes tiny decimals
         currency: 'GHS',
         ref: 'BEE_' + Math.floor((Math.random() * 1000000000) + 1), 
         metadata: {
@@ -261,65 +261,72 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
                 { display_name: "Phone Number", variable_name: "phone_number", value: phone }
             ]
         },
-        callback: async function(response) {
-            // THIS RUNS ONLY IF PAYMENT IS SUCCESSFUL
-            const paystackReference = response.reference;
-            btn.innerText = 'Processing Order...';
+        // THE BUG FIX: Changed 'async function' to standard 'function' so Paystack accepts it.
+        // We hide the async code inside a normal function.
+        callback: function(response) {
+            
+            const processPayment = async () => {
+                const paystackReference = response.reference;
+                btn.innerText = 'Processing Order...';
 
-            const orderData = {
-                customer_name: name,
-                momo_number: phone, 
-                transaction_ref: paystackReference, 
-                amount: exactCartTotal, 
-                delivery_address: address,
-                screenshot_url: null, // No longer using screenshots
-                cart_items: cart,
-                status: 'Paid - Pending Delivery'
+                const orderData = {
+                    customer_name: name,
+                    momo_number: phone, 
+                    transaction_ref: paystackReference, 
+                    amount: exactCartTotal, 
+                    delivery_address: address,
+                    screenshot_url: null, 
+                    cart_items: cart,
+                    status: 'Paid - Pending Delivery'
+                };
+
+                const { error } = await client.from('payments').insert([orderData]);
+
+                if (error) {
+                    console.error("Checkout Error:", error);
+                    alert("Payment successful, but order failed to save. Please contact support with Reference ID: " + paystackReference);
+                } else {
+                    // Deduct Stock
+                    for (let item of cart) {
+                        const product = products.find(p => p.id === item.id);
+                        if (product && product.stock_quantity > 0) {
+                            await client.from('products').update({ stock_quantity: product.stock_quantity - 1 }).eq('id', item.id);
+                        }
+                    }
+
+                    let itemsListHtml = '<ul style="margin: 0; padding-left: 20px;">';
+                    cart.forEach(item => {
+                        itemsListHtml += `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - Option: ${item.selectedSize} (GHS ${parseFloat(item.price).toFixed(2)})</li>`;
+                    });
+                    itemsListHtml += '</ul>';
+
+                    // SEND EMAIL NOTIFICATION VIA EMAILJS
+                    emailjs.send("service_mudquvm", "template_rkricc9", {
+                        customer_name: orderData.customer_name,
+                        amount: orderData.amount,
+                        momo_number: orderData.momo_number,
+                        transaction_ref: orderData.transaction_ref,
+                        delivery_address: orderData.delivery_address,
+                        order_summary: itemsListHtml 
+                    }).then(
+                        function(response) { console.log("Email notification sent successfully", response); },
+                        function(error) { console.error("Email notification failed", error); }
+                    );
+
+                    alert('Payment Successful! \n\nThank you for shopping with Bee\'s Collections. We will contact you regarding delivery.');
+                    cart = []; 
+                    localStorage.removeItem('beeCart');
+                    document.getElementById('cart-count').innerText = '0';
+                    document.getElementById('checkout-form').reset(); 
+                    navigate('home');
+                    fetchProducts(); 
+                }
+                btn.innerText = 'Pay Now Securely';
+                btn.disabled = false;
             };
 
-            const { error } = await client.from('payments').insert([orderData]);
-
-            if (error) {
-                console.error("Checkout Error:", error);
-                alert("Payment successful, but order failed to save. Please contact support with Reference ID: " + paystackReference);
-            } else {
-                // Deduct Stock
-                for (let item of cart) {
-                    const product = products.find(p => p.id === item.id);
-                    if (product && product.stock_quantity > 0) {
-                        await client.from('products').update({ stock_quantity: product.stock_quantity - 1 }).eq('id', item.id);
-                    }
-                }
-
-                let itemsListHtml = '<ul style="margin: 0; padding-left: 20px;">';
-                cart.forEach(item => {
-                    itemsListHtml += `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - Option: ${item.selectedSize} (GHS ${parseFloat(item.price).toFixed(2)})</li>`;
-                });
-                itemsListHtml += '</ul>';
-
-                // SEND EMAIL NOTIFICATION VIA EMAILJS
-                emailjs.send("service_mudquvm", "template_rkricc9", {
-                    customer_name: orderData.customer_name,
-                    amount: orderData.amount,
-                    momo_number: orderData.momo_number,
-                    transaction_ref: orderData.transaction_ref,
-                    delivery_address: orderData.delivery_address,
-                    order_summary: itemsListHtml 
-                }).then(
-                    function(response) { console.log("Email notification sent successfully", response); },
-                    function(error) { console.error("Email notification failed", error); }
-                );
-
-                alert('Payment Successful! \n\nThank you for shopping with Bee\'s Collections. We will contact you regarding delivery.');
-                cart = []; 
-                localStorage.removeItem('beeCart');
-                document.getElementById('cart-count').innerText = '0';
-                document.getElementById('checkout-form').reset(); 
-                navigate('home');
-                fetchProducts(); 
-            }
-            btn.innerText = 'Pay Now Securely';
-            btn.disabled = false;
+            // Execute our hidden async function!
+            processPayment();
         },
         onClose: function() {
             alert('Transaction was cancelled. Your account was not charged.');
@@ -492,8 +499,6 @@ function renderAdminOrders(orders) {
         }
         itemsHtml += '</ul>';
 
-        // Removed screenshot button logic since payment is handled directly by Paystack
-        
         list.innerHTML += `
             <div style="background: var(--cream); padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid var(--gold); position: relative;">
                 
